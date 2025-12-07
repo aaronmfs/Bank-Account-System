@@ -62,7 +62,7 @@ This is a learning project that demonstrates how banking systems work. It lets y
 
 ## Contributing
 
-This is a school project, but suggestions are welcome! Feel free to fork it and make it your own.
+This is a school project, Feel free to fork it and make it your own.
 
 ## License
 
