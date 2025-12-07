@@ -10,55 +10,44 @@ This is a learning project that demonstrates how banking systems work. It lets y
 
 ### Account Management
 
-- [ ] Create new customer accounts with unique account numbers
-- [ ] Support for multiple account types (savings, checking, etc.)
-- [ ] Store comprehensive customer information including name, ID, and contact details
-- [ ] Real-time balance tracking and updates
-- [ ] Account status management (active, frozen, closed)
+- [ ] Create customer accounts with unique account numbers
+- [ ] Store basic customer info (name, ID, contact)
+- [ ] Track account balance
+- [ ] Support one account type (checking/savings)
 
 ### Transaction Processing
 
-- [ ] **Deposits**: Add funds to any account
-- [ ] **Withdrawals**: Remove funds with overdraft protection
-- [ ] **Transfers**: Move money between accounts instantly
-- [ ] Real-time balance updates across all operations
-- [ ] Transaction validation to prevent insufficient fund errors
-- [ ] Automatic timestamp recording for all transactions
+- [ ] Deposits: Add money to account
+- [ ] Withdrawals: Remove money (check for sufficient funds)
+- [ ] Transfers: Move money between accounts instantly
+- [ ] View current balance
+- [ ] Simple transaction validation
 
 ### Authentication & Security
 
-- [ ] Secure login system with username and password
-- [ ] PIN-based verification for sensitive operations
-- [ ] Session management to track active users
-- [ ] Identity verification before allowing account access
-- [ ] Password encryption and secure credential storage
-- [ ] Automatic logout after period of inactivity
+- [ ] Login with username and password
+- [ ] Verify identity before account access
+- [ ] Basic session tracking (who's logged in)
 
 ### Transaction History
 
-- [ ] Complete transaction log for every account
-- [ ] Detailed records including date, time, amount, and transaction type
-- [ ] Filter transactions by date range, type, or amount
-- [ ] Export transaction history for record-keeping
-- [ ] Permanent audit trail for all financial activities
+- [ ] Record all transactions (date, amount, type)
+- [ ] View transaction history for any account
+- [ ] Simple list format showing recent activities
 
 ### Data Storage
 
-- [ ] Persistent database storage for all system data
-- [ ] Customer profile management
-- [ ] Account information retention
-- [ ] Complete transaction record archive
-- [ ] Data integrity checks and validation
-- [ ] Backup and recovery capabilities
+- [ ] Store account and customer data
+- [ ] Keep transaction records
+- [ ] Basic data validation
 
 ### User Interface
 
-- [ ] Clean, intuitive interface for easy navigation
-- [ ] Menu-driven system for all operations
-- [ ] Clear prompts and error messages
-- [ ] Account summary dashboard
-- [ ] Transaction confirmation screens
-- [ ] Help system and documentation access
+- [ ] Text-based menu system
+- [ ] Clear prompts for user input
+- [ ] Display account information
+- [ ] Show success/error messages
+- [ ] Easy navigation between features
 
 ## Contributing
 
