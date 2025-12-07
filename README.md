@@ -60,25 +60,6 @@ This is a learning project that demonstrates how banking systems work. It lets y
 - [ ] Transaction confirmation screens
 - [ ] Help system and documentation access
 
-## Getting Started
-
-### What You Need
-
-```
-- C++
-- CMake 3.29
-- A database (We could just use a shift-make txt file for persistent data storage lol)
-```
-
-### How to Run
-
-```bash
-git clone https://github.com/aaronmfs/bank-simulator.git
-
-# Go to the project folder
-cd bank-simulator
-```
-
 ## Contributing
 
 This is a school project, but suggestions are welcome! Feel free to fork it and make it your own.
