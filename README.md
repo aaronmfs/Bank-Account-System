@@ -49,6 +49,15 @@ This is a learning project that demonstrates how banking systems work. It lets y
 - [ ] Show success/error messages
 - [ ] Easy navigation between features
 
+## Getting Started
+
+### What You Need
+
+```
+- C++ 17
+- CMake 3.29
+```
+
 ## Contributing
 
 This is a school project, Feel free to fork it and make it your own.
