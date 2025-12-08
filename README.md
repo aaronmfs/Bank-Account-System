@@ -56,7 +56,6 @@ This is a learning project that demonstrates how banking systems work. It lets y
 ```
 - C++ 17
 - CMake 3.29
-- wxWidgets
 ```
 
 ## Contributing
