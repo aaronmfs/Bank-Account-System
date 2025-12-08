@@ -5,6 +5,16 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+# Cross-compilation setup for MinGW
+set(CMAKE_SYSTEM_NAME Windows)
+set(CMAKE_C_COMPILER x86_64-w64-mingw32-gcc)
+set(CMAKE_CXX_COMPILER x86_64-w64-mingw32-g++)
+set(CMAKE_RC_COMPILER x86_64-w64-mingw32-windres)
+
+# Tell CMake not to test the compiler (avoids cross-compilation issues)
+set(CMAKE_C_COMPILER_WORKS 1)
+set(CMAKE_CXX_COMPILER_WORKS 1)
+
 string(APPEND CMAKE_CXX_FLAGS " -Wall")
 string(APPEND CMAKE_CXX_FLAGS " -Wextra")
 string(APPEND CMAKE_CXX_FLAGS " -Wpedantic")
@@ -16,18 +26,18 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 
-set(wxBUILD_SHARED OFF CACHE BOOL "Build wx libraries as shared libs")
-add_subdirectory(lib/wxWidgets)
+# Use prebuilt wxWidgets from lib directory
+set(wxWidgets_ROOT_DIR ${CMAKE_SOURCE_DIR}/lib/wxWidgets)
+set(wxWidgets_CONFIGURATION mswu)
+find_package(wxWidgets REQUIRED COMPONENTS core base)
+include(${wxWidgets_USE_FILE})
 
 include_directories(${CMAKE_SOURCE_DIR}/include)
 file(GLOB SOURCES "${CMAKE_SOURCE_DIR}/src/*.cpp")
 
-add_executable(${PROJECT_NAME} ${SOURCES})
+add_executable(${PROJECT_NAME} WIN32 ${SOURCES})
 
-target_link_libraries(${PROJECT_NAME}
-    wx::core
-    wx::base
-)
+target_link_libraries(${PROJECT_NAME} ${wxWidgets_LIBRARIES})
 
 # Example
 # Optional: Link with Boost (static)
