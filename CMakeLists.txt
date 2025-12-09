@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.29)
+cmake_minimum_required(VERSION 3.22)
 project(bank_account_system)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -26,18 +26,28 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 
-# Use prebuilt wxWidgets from lib directory
-set(wxWidgets_ROOT_DIR ${CMAKE_SOURCE_DIR}/lib/wxWidgets)
-set(wxWidgets_CONFIGURATION mswu)
-find_package(wxWidgets REQUIRED COMPONENTS core base)
-include(${wxWidgets_USE_FILE})
+# Manual wxWidgets setup for prebuilt binaries
+set(WX_ROOT ${CMAKE_SOURCE_DIR}/lib/wxWidgets)
+set(WX_LIB ${WX_ROOT}/lib/gcc810_x64_dll)
+
+include_directories(${WX_ROOT}/include ${WX_LIB}/mswu)
+link_directories(${WX_LIB})
+
+# wxWidgets libraries
+set(WX_LIBS wxmsw32u_core wxbase32u wxpng wxzlib wxregexu wxexpat)
+
+# Windows system libraries
+set(WIN_LIBS -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool
+    -lshell32 -lole32 -loleaut32 -luuid -lcomctl32 -ladvapi32)
+
+add_definitions(-D__WXMSW__ -DUNICODE -D_UNICODE)
 
 include_directories(${CMAKE_SOURCE_DIR}/include)
 file(GLOB SOURCES "${CMAKE_SOURCE_DIR}/src/*.cpp")
 
 add_executable(${PROJECT_NAME} WIN32 ${SOURCES})
 
-target_link_libraries(${PROJECT_NAME} ${wxWidgets_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} ${WX_LIBS} ${WIN_LIBS})
 
 # Example
 # Optional: Link with Boost (static)
