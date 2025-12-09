@@ -1,26 +1,19 @@
-# Build directory
 build/
 *.o
 *.out
 *.exe
-
-# CMake
 CMakeCache.txt
 CMakeFiles/
 cmake_install.cmake
 Makefile
 compile_commands.json
-
-# IDE
 .vscode/
 .idea/
 *.swp
 *.swo
 *~
-
-# OS
 .DS_Store
 Thumbs.db
-
 lib/wxWidgets/
 README_1.md
+.clangd
