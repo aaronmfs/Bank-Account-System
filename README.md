@@ -4,7 +4,7 @@ A school project simulating a basic banking system with core functionalities lik
 
 ## Overview
 
-This is a learning project that demonstrates how banking systems work. It lets you create accounts, make deposits and withdrawals, transfer money, and view transaction history. Perfect for understanding banking concepts and practicing programming skills!
+This learning project demonstrates how banking systems work. It lets you create accounts, make deposits and withdrawals, transfer money, and view transaction history. Perfect for understanding banking concepts and practicing programming skills!
 
 ## Features
 
@@ -17,8 +17,8 @@ This is a learning project that demonstrates how banking systems work. It lets y
 
 ### Transaction Processing
 
-- [ ] Deposits: Add money to account
-- [ ] Withdrawals: Remove money (check for sufficient funds)
+- [ ] Deposits: Add money to an account
+- [ ] Withdrawals: Remove money (with sufficient funds check)
 - [ ] Transfers: Move money between accounts instantly
 - [ ] View current balance
 - [ ] Simple transaction validation
@@ -51,22 +51,28 @@ This is a learning project that demonstrates how banking systems work. It lets y
 
 ## Getting Started
 
-### What You Need
+### Requirements
 
-```
+- Any IDE (VS Code recommended)
 - C++17
-- CMake 3.22
-- MinGW (For cross-compiling)
-```
+- MinGW (for cross-compiling on Windows)
+- CMake
+
+### Setting Up the Environment
+
+- [Installing MinGW to build C++ code on Windows](https://www.youtube.com/watch?v=oC69vlWofJQ)
+- [C++ in VS Code: Building your code with CMake](https://www.youtube.com/watch?v=_BWU5mWqVA4&t=88s)
+
+No need to set up the CMakeLists file. It’s already included and ready to use.
 
 ## Contributing
 
-This is a school project, Feel free to fork it and make it your own.
+This is a school project. Feel free to fork it and make it your own!
 
 ## License
 
-MIT License - feel free to use this for your own learning!
+MIT License — feel free to use this for your own learning.
 
 ## Note
 
-This is a **school project** for learning purposes. Don't use it for real money or actual banking! 😅
+This is a **school project** for learning purposes. Do not use it for real money or actual banking! 😅
