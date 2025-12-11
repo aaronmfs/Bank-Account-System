@@ -72,6 +72,19 @@ file(GLOB SOURCES "${CMAKE_SOURCE_DIR}/src/*.cpp")
 # ==============================================================================
 # Executable Target
 # ==============================================================================
-add_executable(${PROJECT_NAME} ${SOURCES})
+add_executable(${PROJECT_NAME} WIN32 ${SOURCES})
 
-target_link_libraries(${PROJECT_NAME})
+target_include_directories(${PROJECT_NAME} PRIVATE
+    ${CMAKE_SOURCE_DIR}/lib/webview/core/include
+    ${CMAKE_SOURCE_DIR}/lib/webview2/build/native/include
+)
+
+target_link_libraries(${PROJECT_NAME} PRIVATE
+    ${CMAKE_SOURCE_DIR}/lib/webview2/build/native/x64/WebView2LoaderStatic.lib
+    ole32
+    shell32
+    shlwapi
+    user32
+    version
+    advapi32
+)
