@@ -37,8 +37,8 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 # ==============================================================================
 # Project Source Files
 # ==============================================================================
-include_directories(${CMAKE_SOURCE_DIR}/include)
 file(GLOB SOURCES "${CMAKE_SOURCE_DIR}/src/*.cpp")
+file(GLOB HEADERS "${CMAKE_SOURCE_DIR}/include/*.h")
 
 # ==============================================================================
 # Executable Target
