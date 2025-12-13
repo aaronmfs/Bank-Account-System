@@ -12,10 +12,18 @@ jobs:
         with:
           submodules: recursive
       
+      - name: Clean previous WebView2 SDK
+        run: |
+          if (Test-Path lib/webview2) {
+            Remove-Item -Recurse -Force lib/webview2 -ErrorAction SilentlyContinue
+          }
+        shell: pwsh
+      
       - name: Download WebView2 SDK
         run: |
           Invoke-WebRequest -Uri "https://www.nuget.org/api/v2/package/Microsoft.Web.WebView2/1.0.2792.45" -OutFile webview2.zip
-          Expand-Archive webview2.zip -DestinationPath lib/webview2
+          Expand-Archive webview2.zip -DestinationPath lib/webview2 -Force
+          Remove-Item webview2.zip -ErrorAction SilentlyContinue
         shell: pwsh
       
       - name: Setup MSVC
