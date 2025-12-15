@@ -1,6 +1,15 @@
 name: Build Windows
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - test
+  pull_request:
+    branches:
+      - test
+  workflow_dispatch:
+    branches:
+      - main
 
 jobs:
   build-windows:
