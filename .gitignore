@@ -1,0 +1,66 @@
+# ==============================================================================
+# Build Artifacts
+# ==============================================================================
+build/
+*.o
+*.out
+*.exe
+*.a
+*.so
+*.dylib
+
+# ==============================================================================
+# CMake Generated Files
+# ==============================================================================
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+install_manifest.txt
+Makefile
+compile_commands.json
+CTestTestfile.cmake
+_deps/
+
+# ==============================================================================
+# IDE and Editor Files
+# ==============================================================================
+# Visual Studio Code
+.vscode/
+*.code-workspace
+
+# JetBrains IDEs (CLion, etc.)
+.idea/
+cmake-build-*/
+
+# Vim
+*.swp
+*.swo
+*~
+.*.swp
+.clangd
+
+# Emacs
+*~
+\#*\#
+.\#*
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# ==============================================================================
+# Operating System Files
+# ==============================================================================
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Linux
+.directory
+*.tmp
