@@ -7,7 +7,7 @@ int main() {
   webview_set_title(w, "Bank Account System");
   webview_set_size(w, 800, 600, WEBVIEW_HINT_NONE);
 
-  std::string base = std::filesystem::current_path().string();
+  std::string base = RESOURCES_PATH;
   std::string url = "file:///" + base + "/assets/html/index.html";
 
   webview_navigate(w, url.c_str());
