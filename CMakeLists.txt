@@ -12,17 +12,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 # ==============================================================================
-# MSVC Runtime Library Configuration
+# Compiler Flags and MSVC Runtime Library
 # ==============================================================================
 if(MSVC)
+  # MSVC Runtime Library Configuration
   set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
-  # set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Release>:Release>")
-endif()
-
-# ==============================================================================
-# Compiler Flags
-# ==============================================================================
-if(MSVC)
   # Visual Studio flags
   add_compile_options(/W4)
 else()
@@ -62,6 +56,8 @@ add_executable(${PROJECT_NAME} ${SOURCES})
 # Target Properties
 # ==============================================================================
 target_include_directories(${CMAKE_PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include/)
+
+target_compile_definitions(${CMAKE_PROJECT_NAME} PUBLIC RESOURCES_PATH="${CMAKE_CURRENT_SOURCE_DIR}/assets/")
 
 # ==============================================================================
 # Windows-specific Configuration
