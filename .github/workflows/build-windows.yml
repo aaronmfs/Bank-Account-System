@@ -40,4 +40,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: bank_account_system-windows
-          path: build/bin/Release/bank_account_system.exe
+          path: build/bin/Release
