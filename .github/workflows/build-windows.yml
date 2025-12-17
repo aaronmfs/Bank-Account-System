@@ -3,13 +3,13 @@ name: Build Windows
 on:
   push:
     branches:
-      - test
+      - main  # Auto-run on main
   pull_request:
     branches:
-      - test
-  workflow_dispatch:
-    branches:
       - main
+  workflow_dispatch:  # Manual trigger for any branch
+    branches:
+      - test  # Only show manual option on test branch
 
 jobs:
   build-windows:
@@ -40,4 +40,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: bank_account_system-windows
-          path: build/bin/Release
+          path: build/bin/Release/bank_account_system.exe
