@@ -65,7 +65,20 @@ This learning project demonstrates how banking systems work. It lets you create 
 
 ### Usage
 
-For detailed instructions on building and running the project, see the [Usage Guide](markdowns/USAGE.md).
+**Building from Source**
+
+For detailed instructions on how to build and run the project from the source code, please refer to the [Usage Guide](markdowns/USAGE.md).
+
+**Pre-built Binaries**
+
+If you prefer not to build from source, you can download the pre-built binaries from the following link:
+
+- **Outdated**:  
+  [Download Pre-built Binaries](https://github.com/aaronmfs/Bank-Account-System/actions/runs/20584026340/artifacts/4987232451)
+
+- **Updated**:  
+  The updated binaries will be sent to our group chat.
+
 
 ## Contributing
 
