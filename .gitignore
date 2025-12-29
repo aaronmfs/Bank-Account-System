@@ -33,6 +33,5 @@ Desktop.ini
 .directory
 *.tmp
 
-.scripts/
 markdowns/
 docker-compose.yml

@@ -54,7 +54,7 @@ add_subdirectory("lib/httplib")
 # ==============================================================================
 # Source Files
 # ==============================================================================
-file(GLOB SOURCES "${CMAKE_SOURCE_DIR}/src/*.cpp")
+file(GLOB_RECURSE SOURCES "${CMAKE_SOURCE_DIR}/src/*.cpp")
 
 # ==============================================================================
 # Executable Target
@@ -65,20 +65,25 @@ add_executable(${PROJECT_NAME} ${SOURCES})
 # Target Properties
 # ==============================================================================
 # Release only: embed relative path to resources (portable / for release)
-target_compile_definitions(${PROJECT_NAME} PUBLIC
-    RESOURCES_PATH="./assets/"
-)
-
-file(COPY ${CMAKE_SOURCE_DIR}/assets/ DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/assets)
+# target_compile_definitions(${PROJECT_NAME} PUBLIC
+#     RESOURCES_PATH="./assets/"
+# )
+#
+# file(COPY ${CMAKE_SOURCE_DIR}/assets/ DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/assets)
 
 # Development only: embed absolute path to resources (not portable / not for release)
-# target_compile_definitions(${PROJECT_NAME} PUBLIC
-#     RESOURCES_PATH="${CMAKE_CURRENT_SOURCE_DIR}/assets/"
-# )
+target_compile_definitions(${PROJECT_NAME} PUBLIC
+    RESOURCES_PATH="${CMAKE_CURRENT_SOURCE_DIR}/assets/"
+)
 
 target_include_directories(${CMAKE_PROJECT_NAME} PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/include/
 )
+
+target_link_libraries(${PROJECT_NAME} PRIVATE
+    httplib
+)
+
 
 # ==============================================================================
 # Windows-specific Configuration
@@ -95,8 +100,6 @@ if(WIN32)
         user32
         version
         advapi32
-        # Third-party libraries
-        httplib
     )
 
 endif()

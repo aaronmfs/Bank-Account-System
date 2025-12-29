@@ -1,7 +1,7 @@
 #ifndef SERVER_ROUTES_H
 #define SERVER_ROUTES_H
 
-#include "FileManager.h"
+#include "filemanager/filemanager.h"
 #include "httplib/httplib.h"
 
 // This function sets up all the web page routes

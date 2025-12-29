@@ -67,7 +67,7 @@ This learning project demonstrates how banking systems work. It lets you create 
 
 **Building from Source**
 
-For detailed instructions on how to build and run the project from the source code, please refer to the [Usage Guide](markdowns/USAGE.md).
+For detailed instructions on how to build and run the project from the source code, please refer to the [Usage Guide](https://github.com/aaronmfs/my-utils/blob/main/markdowns/scripts/USAGE.md).
 
 **Pre-built Binaries**
 
@@ -86,7 +86,7 @@ This is a school project. Feel free to fork it and make it your own!
 
 ### For Groupmates
 
-New to Git? Check out our [Git Commit Guide](markdowns/GIT_GUIDE.md) to learn how to write proper commits and work with the team!
+New to Git? Check out our [Git Commit Guide](https://github.com/aaronmfs/my-utils/blob/main/markdowns/GIT_GUIDE.md) to learn how to write proper commits and work with the team!
 
 ## License
 
