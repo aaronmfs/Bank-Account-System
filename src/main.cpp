@@ -1,24 +1,12 @@
-#include "ServerRoutes.h"
 #include "filemanager/filemanager.h"
-#include <iostream>
+#include "serverroutes.h"
 
 int main() {
-  // Create file manager (will use users.txt by default)
-  FileManager fileManager("users.txt");
+    FileManager fileManager("users.txt");
+    httplib::Server server;
 
-  // Initialize file with test data if it doesn't exist
-  initializeFile(fileManager);
+    setupRoutes(server, fileManager);
 
-  // Create HTTP server
-  httplib::Server server;
-
-  // Setup all routes (login, register, home pages)
-  setupRoutes(server, fileManager);
-
-  // Start the server
-  std::cout << "Server running on http://localhost:8080\n";
-  std::cout << "Test user - Username: aaronmathew, Password: password\n";
-  server.listen("0.0.0.0", 8080);
-
-  return 0;
+    server.listen("0.0.0.0", 8080);
+    return 0;
 }

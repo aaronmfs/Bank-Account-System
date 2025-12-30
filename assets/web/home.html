@@ -1,6 +1,45 @@
-<form method="POST" action="/home">
-  <div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Account Overview</title>
+</head>
+<body>
     <h1>Hello, {{username}}</h1>
-    <h2>your current balance is {{balance}}</h2>
-  </div>
-</form>
+    <h2>Your Account ID: {{accountId}}</h2>
+    <h2>Your Current Balance: ${{balance}}</h2>
+
+    <hr>
+
+    <!-- DEPOSIT -->
+    <form method="POST" action="/home">
+        <input type="hidden" name="accountId" value="{{accountId}}">
+        <label for="depositAmount">Deposit Amount:</label>
+        <input type="number" id="depositAmount" name="depositAmount" placeholder="Enter amount">
+        <button type="submit" name="action" value="deposit">Deposit</button>
+    </form>
+
+    <br>
+
+    <!-- WITHDRAW -->
+    <form method="POST" action="/home">
+        <input type="hidden" name="accountId" value="{{accountId}}">
+        <label for="withdrawAmount">Withdraw Amount:</label>
+        <input type="number" id="withdrawAmount" name="withdrawAmount" placeholder="Enter amount">
+        <button type="submit" name="action" value="withdraw">Withdraw</button>
+    </form>
+
+    <br>
+
+    <!-- TRANSFER -->
+    <form method="POST" action="/home">
+        <input type="hidden" name="accountId" value="{{accountId}}">
+        <label for="transferAmount">Transfer Amount:</label>
+        <input type="number" id="transferAmount" name="transferAmount" placeholder="Enter amount">
+        <br>
+        <label for="toAccountId">To Account ID:</label>
+        <input type="text" id="toAccountId" name="toAccountId" placeholder="1234-5678-9012-3456">
+        <button type="submit" name="action" value="transfer">Transfer</button>
+    </form>
+</body>
+</html>

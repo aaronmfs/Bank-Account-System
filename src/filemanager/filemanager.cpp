@@ -1,213 +1,116 @@
 #include "filemanager/filemanager.h"
-#include <algorithm>
 #include <fstream>
-#include <iostream>
 #include <sstream>
 
 FileManager::FileManager(const std::string &file) : filename(file) {}
 
-// Split string by delimiter
-std::vector<std::string> FileManager::split(const std::string &str,
-                                            char delimiter) {
-  std::vector<std::string> tokens;
-  std::stringstream ss(str);
-  std::string token;
+// Get user by account ID
+User *FileManager::getUser(const std::string &accountId) {
+    std::ifstream file(filename);
+    std::string line;
 
-  while (std::getline(ss, token, delimiter)) {
-    tokens.push_back(trim(token));
-  }
+    while (std::getline(file, line)) {
+        std::stringstream ss(line);
+        std::string id, email, pass, name, bal;
 
-  return tokens;
-}
+        std::getline(ss, id, ',');
+        std::getline(ss, email, ',');
+        std::getline(ss, pass, ',');
+        std::getline(ss, name, ',');
+        std::getline(ss, bal, ',');
 
-// Trim whitespace from string
-std::string FileManager::trim(const std::string &str) {
-  size_t first = str.find_first_not_of(" \t\n\r");
-  if (first == std::string::npos)
-    return "";
-
-  size_t last = str.find_last_not_of(" \t\n\r");
-  return str.substr(first, (last - first + 1));
-}
-
-// Add a new user to the file
-bool FileManager::addUser(const std::string &username,
-                          const std::string &password) {
-  // Check if user already exists
-  if (userExists(username)) {
-    std::cerr << "User already exists\n";
-    return false;
-  }
-
-  // Open file in append mode
-  std::ofstream file(filename, std::ios::app);
-
-  if (!file.is_open()) {
-    std::cerr << "Failed to open file for writing\n";
-    return false;
-  }
-
-  // Write user data: username,password,balance
-  file << username << "," << password << ",0\n";
-  file.close();
-
-  std::cout << "User added successfully\n";
-  return true;
-}
-
-// Get user by username and password (for login)
-User *FileManager::getUser(const std::string &username,
-                           const std::string &password) {
-  std::ifstream file(filename);
-
-  if (!file.is_open()) {
-    std::cerr << "Failed to open file for reading\n";
+        if (id == accountId) {
+            User *user = new User();
+            user->accountId = id;
+            user->email = email;
+            user->password = pass;
+            user->fullname = name;
+            user->balance = bal;
+            return user;
+        }
+    }
     return nullptr;
-  }
-
-  std::string line;
-  while (std::getline(file, line)) {
-    std::vector<std::string> parts = split(line, ',');
-
-    if (parts.size() >= 3) {
-      if (parts[0] == username && parts[1] == password) {
-        User *user = new User();
-        user->username = parts[0];
-        user->password = parts[1];
-        user->balance = parts[2];
-        file.close();
-        return user;
-      }
-    }
-  }
-
-  file.close();
-  return nullptr;
 }
 
-// Get user by username only
-User *FileManager::getUserByUsername(const std::string &username) {
-  std::ifstream file(filename);
+// Update balance in file
+bool FileManager::updateBalance(const std::string &accountId, const std::string &newBalance) {
+    std::ifstream in(filename);
+    std::vector<std::string> lines;
+    std::string line;
+    bool found = false;
 
-  if (!file.is_open()) {
-    std::cerr << "Failed to open file for reading\n";
-    return nullptr;
-  }
+    while (std::getline(in, line)) {
+        std::stringstream ss(line);
+        std::string id, rest;
+        std::getline(ss, id, ',');
 
-  std::string line;
-  while (std::getline(file, line)) {
-    std::vector<std::string> parts = split(line, ',');
-
-    if (parts.size() >= 3) {
-      if (parts[0] == username) {
-        User *user = new User();
-        user->username = parts[0];
-        user->password = parts[1];
-        user->balance = parts[2];
-        file.close();
-        return user;
-      }
+        if (id == accountId) {
+            std::getline(ss, rest);
+            size_t lastComma = rest.rfind(',');
+            lines.push_back(id + "," + rest.substr(0, lastComma + 1) + newBalance);
+            found = true;
+        } else {
+            lines.push_back(line);
+        }
     }
-  }
+    in.close();
 
-  file.close();
-  return nullptr;
+    if (!found)
+        return false;
+
+    std::ofstream out(filename);
+    for (const auto &l : lines)
+        out << l << "\n";
+    return true;
 }
 
-// Update user's balance
-bool FileManager::updateBalance(const std::string &username,
-                                const std::string &newBalance) {
-  std::ifstream fileIn(filename);
+// Deposit money
+bool FileManager::deposit(const std::string &accountId, double amount) {
+    User *user = getUser(accountId);
+    if (!user || amount <= 0)
+        return false;
 
-  if (!fileIn.is_open()) {
-    std::cerr << "Failed to open file for reading\n";
-    return false;
-  }
-
-  // Read all users into memory
-  std::vector<std::string> lines;
-  std::string line;
-  bool found = false;
-
-  while (std::getline(fileIn, line)) {
-    std::vector<std::string> parts = split(line, ',');
-
-    if (parts.size() >= 3 && parts[0] == username) {
-      // Update this user's balance
-      lines.push_back(parts[0] + "," + parts[1] + "," + newBalance);
-      found = true;
-    } else {
-      lines.push_back(line);
-    }
-  }
-
-  fileIn.close();
-
-  if (!found) {
-    std::cerr << "User not found\n";
-    return false;
-  }
-
-  // Write all data back to file
-  std::ofstream fileOut(filename);
-
-  if (!fileOut.is_open()) {
-    std::cerr << "Failed to open file for writing\n";
-    return false;
-  }
-
-  for (const auto &l : lines) {
-    fileOut << l << "\n";
-  }
-
-  fileOut.close();
-  std::cout << "Balance updated successfully\n";
-  return true;
+    double newBalance = std::stod(user->balance) + amount;
+    delete user;
+    return updateBalance(accountId, std::to_string(newBalance));
 }
 
-// Check if user exists
-bool FileManager::userExists(const std::string &username) {
-  std::ifstream file(filename);
+// Withdraw money
+bool FileManager::withdraw(const std::string &accountId, double amount) {
+    User *user = getUser(accountId);
+    if (!user || amount <= 0)
+        return false;
 
-  if (!file.is_open()) {
-    return false;
-  }
-
-  std::string line;
-  while (std::getline(file, line)) {
-    std::vector<std::string> parts = split(line, ',');
-
-    if (parts.size() >= 1 && parts[0] == username) {
-      file.close();
-      return true;
+    double currentBalance = std::stod(user->balance);
+    if (currentBalance < amount) {
+        delete user;
+        return false;
     }
-  }
 
-  file.close();
-  return false;
+    double newBalance = currentBalance - amount;
+    delete user;
+    return updateBalance(accountId, std::to_string(newBalance));
 }
 
-// Initialize file with test data
-void FileManager::initializeFile() {
-  // Check if file already exists
-  std::ifstream checkFile(filename);
-  if (checkFile.is_open()) {
-    checkFile.close();
-    std::cout << "Users file already exists\n";
-    return;
-  }
+// Transfer money
+bool FileManager::transfer(const std::string &from, const std::string &to, double amount) {
+    User *fromUser = getUser(from);
+    User *toUser = getUser(to);
 
-  // Create new file with test user
-  std::ofstream file(filename);
+    if (!fromUser || !toUser || amount <= 0)
+        return false;
 
-  if (!file.is_open()) {
-    std::cerr << "Failed to create users file\n";
-    return;
-  }
+    double fromBalance = std::stod(fromUser->balance);
+    if (fromBalance < amount) {
+        delete fromUser;
+        delete toUser;
+        return false;
+    }
 
-  // Add test user: username,password,balance
-  file << "aaronmathew,password,100000\n";
-  file.close();
+    updateBalance(from, std::to_string(fromBalance - amount));
+    updateBalance(to, std::to_string(std::stod(toUser->balance) + amount));
 
-  std::cout << "Users file created with test user\n";
+    delete fromUser;
+    delete toUser;
+    return true;
 }

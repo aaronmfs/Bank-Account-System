@@ -1,42 +1,29 @@
-#ifndef FILE_MANAGER_H
-#define FILE_MANAGER_H
+#ifndef FILEMANAGER_H
+#define FILEMANAGER_H
 
 #include <string>
 #include <vector>
 
-// Structure to hold user data
 struct User {
-  std::string username;
-  std::string password;
-  std::string balance;
+    std::string accountId;
+    std::string email;
+    std::string password;
+    std::string fullname;
+    std::string balance;
 };
 
 class FileManager {
-private:
-  std::string filename;
+  private:
+    std::string filename;
+    bool updateBalance(const std::string &accountId, const std::string &newBalance);
 
-  // Helper function to split a string by delimiter
-  std::vector<std::string> split(const std::string &str, char delimiter);
+  public:
+    FileManager(const std::string &file);
 
-  // Helper function to trim whitespace
-  std::string trim(const std::string &str);
-
-public:
-  // Constructor
-  FileManager(const std::string &file = "users.txt");
-
-  // User operations
-  bool addUser(const std::string &username, const std::string &password);
-  User *getUser(const std::string &username, const std::string &password);
-  User *getUserByUsername(const std::string &username);
-  bool updateBalance(const std::string &username,
-                     const std::string &newBalance);
-
-  // Initialize file with test data
-  void initializeFile();
-
-  // Check if user exists
-  bool userExists(const std::string &username);
+    User *getUser(const std::string &accountId);
+    bool deposit(const std::string &accountId, double amount);
+    bool withdraw(const std::string &accountId, double amount);
+    bool transfer(const std::string &from, const std::string &to, double amount);
 };
 
-#endif // FILE_MANAGER_H
+#endif
