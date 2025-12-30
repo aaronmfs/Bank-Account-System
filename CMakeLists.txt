@@ -30,11 +30,11 @@ set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 # ==============================================================================
 # Check if the compiler is Microsoft Visual C++
 if(MSVC)
-  # Add high warning level and treat warnings as errors for MSVC
-  add_compile_options(/W4 /WX)
+    # Add high warning level and treat warnings as errors for MSVC
+    add_compile_options(/W4 /WX)
 else()
-  # Enable common warnings, extra warnings, pedantic mode, and treat warnings as errors
-  add_compile_options(-Wall -Wextra -Wpedantic -Werror)
+    # Enable common warnings, extra warnings, pedantic mode, and treat warnings as errors
+    add_compile_options(-Wall -Wextra -Wpedantic -Werror)
 endif()
 
 # ==============================================================================
@@ -65,16 +65,16 @@ add_executable(${PROJECT_NAME} ${SOURCES})
 # Target Properties
 # ==============================================================================
 # Release only: embed relative path to resources (portable / for release)
-# target_compile_definitions(${PROJECT_NAME} PUBLIC
-#     RESOURCES_PATH="./assets/"
-# )
-#
-# file(COPY ${CMAKE_SOURCE_DIR}/assets/ DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/assets)
+target_compile_definitions(${PROJECT_NAME} PUBLIC
+    RESOURCES_PATH="./assets/"
+)
+
+file(COPY ${CMAKE_SOURCE_DIR}/assets/ DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/assets)
 
 # Development only: embed absolute path to resources (not portable / not for release)
-target_compile_definitions(${PROJECT_NAME} PUBLIC
-    RESOURCES_PATH="${CMAKE_CURRENT_SOURCE_DIR}/assets/"
-)
+# target_compile_definitions(${PROJECT_NAME} PUBLIC
+#     RESOURCES_PATH="${CMAKE_CURRENT_SOURCE_DIR}/assets/"
+# )
 
 target_include_directories(${CMAKE_PROJECT_NAME} PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/include/
@@ -90,10 +90,10 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 # ==============================================================================
 if(WIN32)
 
-  # Optionally mark the application as a GUI app (no console window)
-  # set_target_properties(${PROJECT_NAME} PROPERTIES WIN32_EXECUTABLE TRUE)
+    # Optionally mark the application as a GUI app (no console window)
+    # set_target_properties(${PROJECT_NAME} PROPERTIES WIN32_EXECUTABLE TRUE)
 
-  target_link_libraries(${PROJECT_NAME} PRIVATE
+    target_link_libraries(${PROJECT_NAME} PRIVATE
         ole32
         shell32
         shlwapi
