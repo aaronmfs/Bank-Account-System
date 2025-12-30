@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Bank System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Home Page -->
+        <div id="home-page" class="page active">
+            <h1>🏦 Simple Bank System</h1>
+            <div class="menu">
+                <button class="menu-item create" onclick="showPage('create-page')">Create Account</button>
+                <button class="menu-item deposit" onclick="showPage('deposit-page')">Deposit Money</button>
+                <button class="menu-item withdraw" onclick="showPage('withdraw-page')">Withdraw Money</button>
+                <button class="menu-item balance" onclick="showPage('balance-page')">Check Balance</button>
+                <button class="menu-item transfer" onclick="showPage('transfer-page')">Transfer Money</button>
+            </div>
+        </div>
+
+        <!-- Create Account Page -->
+        <div id="create-page" class="page">
+            <h1>Create New Account</h1>
+            <form id="create-form" onsubmit="handleCreate(event)">
+                <div class="form-group">
+                    <label>Full Name:</label>
+                    <input type="text" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label>Initial Deposit ($):</label>
+                    <input type="number" name="amount" step="0.01" min="0" required>
+                </div>
+                <div class="form-group">
+                    <label>4-Digit PIN:</label>
+                    <input type="password" name="pin" maxlength="4" minlength="4" pattern="\d{4}" required>
+                </div>
+                <button type="submit" class="submit-btn create">Create Account</button>
+            </form>
+            <button class="back-btn" onclick="showPage('home-page')">← Back to Home</button>
+        </div>
+
+        <!-- Deposit Page -->
+        <div id="deposit-page" class="page">
+            <h1>Deposit Money</h1>
+            <form id="deposit-form" onsubmit="handleDeposit(event)">
+                <div class="form-group">
+                    <label>Account Number:</label>
+                    <input type="number" name="account" required>
+                </div>
+                <div class="form-group">
+                    <label>PIN:</label>
+                    <input type="password" name="pin" maxlength="4" required>
+                </div>
+                <div class="form-group">
+                    <label>Amount ($):</label>
+                    <input type="number" name="amount" step="0.01" min="0.01" required>
+                </div>
+                <button type="submit" class="submit-btn deposit">Deposit</button>
+            </form>
+            <button class="back-btn" onclick="showPage('home-page')">← Back to Home</button>
+        </div>
+
+        <!-- Withdraw Page -->
+        <div id="withdraw-page" class="page">
+            <h1>Withdraw Money</h1>
+            <form id="withdraw-form" onsubmit="handleWithdraw(event)">
+                <div class="form-group">
+                    <label>Account Number:</label>
+                    <input type="number" name="account" required>
+                </div>
+                <div class="form-group">
+                    <label>PIN:</label>
+                    <input type="password" name="pin" maxlength="4" required>
+                </div>
+                <div class="form-group">
+                    <label>Amount ($):</label>
+                    <input type="number" name="amount" step="0.01" min="0.01" required>
+                </div>
+                <button type="submit" class="submit-btn withdraw">Withdraw</button>
+            </form>
+            <button class="back-btn" onclick="showPage('home-page')">← Back to Home</button>
+        </div>
+
+        <!-- Check Balance Page -->
+        <div id="balance-page" class="page">
+            <h1>Check Balance</h1>
+            <form id="balance-form" onsubmit="handleBalance(event)">
+                <div class="form-group">
+                    <label>Account Number:</label>
+                    <input type="number" name="account" required>
+                </div>
+                <div class="form-group">
+                    <label>PIN:</label>
+                    <input type="password" name="pin" maxlength="4" required>
+                </div>
+                <button type="submit" class="submit-btn balance">Check Balance</button>
+            </form>
+            <div id="balance-result"></div>
+            <button class="back-btn" onclick="showPage('home-page')">← Back to Home</button>
+        </div>
+
+        <!-- Transfer Page -->
+        <div id="transfer-page" class="page">
+            <h1>Transfer Money</h1>
+            <form id="transfer-form" onsubmit="handleTransfer(event)">
+                <div class="form-group">
+                    <label>Your Account Number:</label>
+                    <input type="number" name="from_account" required>
+                </div>
+                <div class="form-group">
+                    <label>Your PIN:</label>
+                    <input type="password" name="pin" maxlength="4" required>
+                </div>
+                <div class="form-group">
+                    <label>Recipient Account Number:</label>
+                    <input type="number" name="to_account" required>
+                </div>
+                <div class="form-group">
+                    <label>Amount ($):</label>
+                    <input type="number" name="amount" step="0.01" min="0.01" required>
+                </div>
+                <button type="submit" class="submit-btn transfer">Transfer</button>
+            </form>
+            <button class="back-btn" onclick="showPage('home-page')">← Back to Home</button>
+        </div>
+
+        <!-- Result Modal -->
+        <div id="result-modal" class="modal">
+            <div class="modal-content">
+                <h2 id="modal-title">Result</h2>
+                <p id="modal-message"></p>
+                <button class="modal-close" onclick="closeModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
