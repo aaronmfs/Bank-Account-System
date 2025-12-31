@@ -38,17 +38,27 @@ function closeModal() {
     modal.classList.remove('show');
 }
 
-// Helper function to send form data
+// Helper function to send form data with proper encoding
 async function sendRequest(url, formData) {
     try {
+        // Convert FormData to URL-encoded string
+        const params = new URLSearchParams();
+        for (const [key, value] of formData.entries()) {
+            params.append(key, value);
+        }
+
         const response = await fetch(url, {
             method: 'POST',
-            body: formData
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: params.toString()
         });
 
         const data = await response.json();
         return data;
     } catch (error) {
+        console.error('Request error:', error);
         return {
             success: false,
             message: 'Network error. Please check your connection.'
