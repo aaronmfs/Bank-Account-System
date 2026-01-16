@@ -1,4 +1,4 @@
-# Simple Banking System (Web-Based)
+# Banking System Simulator (Web-Based)
 
 A **school group project** that simulates a basic banking system with a **web-based interface**.  
 This project focuses only on essential banking operations to keep the system simple and easy to understand.
@@ -8,8 +8,6 @@ This project focuses only on essential banking operations to keep the system sim
 ## Overview
 
 This project demonstrates a simplified banking system where users can **create accounts**, **switch between accounts**, and perform basic transactions such as **deposit**, **withdraw**, and **transfer** through a web interface.
-
-It is designed for learning system logic, web interaction, and collaborative development.
 
 ---
 
@@ -58,11 +56,8 @@ For detailed instructions on how to build and run the project from source, pleas
 
 If you prefer not to build from source, you may download the pre-built binaries:
 
-- **Outdated:**  
-  https://github.com/aaronmfs/Bank-Account-System/actions/runs/20584026340/artifacts/4987232451
-
-- **Updated:**  
-  The updated binaries will be sent through our group chat.
+- **Latest:**  
+  https://github.com/aaronmfs/Bank-Account-System/actions/runs/21056875233/artifacts/5150320271
 
 ---
 
