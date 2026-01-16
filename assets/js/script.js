@@ -1,6 +1,8 @@
+// Store accounts in memory
 let accounts = [];
 let currentAccount = null;
 
+// Initialize
 function init() {
     updateDateTime();
     setInterval(updateDateTime, 60000);
@@ -19,6 +21,7 @@ function updateDashboard() {
         document.getElementById('dashboard-account').textContent = `Account #${currentAccount.accountNumber}`;
         document.getElementById('current-account-display').textContent = currentAccount.name;
 
+        // Pre-fill account numbers
         document.getElementById('deposit-account').value = currentAccount.accountNumber;
         document.getElementById('withdraw-account').value = currentAccount.accountNumber;
         document.getElementById('balance-account').value = currentAccount.accountNumber;
@@ -36,13 +39,22 @@ function showAccountSwitcher() {
     if (accounts.length === 0) {
         accountList.innerHTML = '<p style="text-align: center; color: #7f8c8d; padding: 20px;">No accounts available. Please create one.</p>';
     } else {
-        accountList.innerHTML = accounts.map(acc => `
-            <div class="account-item ${currentAccount && currentAccount.accountNumber === acc.accountNumber ? 'active' : ''}" 
-                 onclick="switchAccount(${acc.accountNumber})">
+        // Clear the list first
+        accountList.innerHTML = '';
+
+        // Create account items with proper event listeners
+        accounts.forEach(acc => {
+            const div = document.createElement('div');
+            div.className = `account-item ${currentAccount && currentAccount.accountNumber === acc.accountNumber ? 'active' : ''}`;
+            div.innerHTML = `
                 <div class="account-item-name">${acc.name}</div>
-                <div class="account-item-number">Account #${acc.accountNumber} • Balance: $${acc.balance.toFixed(2)}</div>
-            </div>
-        `).join('');
+                <div class="account-item-number">Account #${acc.accountNumber} • Balance: ${acc.balance.toFixed(2)}</div>
+            `;
+            div.addEventListener('click', function () {
+                switchAccount(acc.accountNumber);
+            });
+            accountList.appendChild(div);
+        });
     }
 
     document.getElementById('account-switcher-modal').classList.add('show');
@@ -122,6 +134,45 @@ async function sendRequest(url, formData) {
             success: false,
             message: 'Network error. Please check your connection.'
         };
+    }
+}
+
+async function handleLogin(event) {
+    event.preventDefault();
+    const form = event.target;
+    const formData = new FormData(form);
+
+    const result = await sendRequest('/api/balance', formData);
+
+    if (result.success) {
+        // Check if account already exists in our list
+        let account = accounts.find(acc => acc.accountNumber === result.accountNumber);
+
+        if (!account) {
+            // Add the account to our list
+            account = {
+                accountNumber: result.accountNumber,
+                name: result.name,
+                balance: result.balance
+            };
+            accounts.push(account);
+        } else {
+            // Update existing account balance
+            account.balance = result.balance;
+        }
+
+        currentAccount = account;
+        updateDashboard();
+
+        showModal(
+            'Login Successful',
+            `Welcome back, ${result.name}!\n\nAccount #${result.accountNumber}\nBalance: ${result.balance.toFixed(2)}`,
+            true
+        );
+        form.reset();
+        showPage('home-page');
+    } else {
+        showModal('Login Failed', result.message, false);
     }
 }
 
@@ -271,4 +322,5 @@ window.onclick = function (event) {
     }
 }
 
+// Initialize on load
 init();

@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- Header -->
     <div class="header">
         <div class="header-top">
             <div class="container">
@@ -31,6 +32,7 @@
     </div>
 
     <div class="main-container">
+        <!-- Home/Dashboard Page -->
         <div id="home-page" class="page active">
             <div class="dashboard-grid">
                 <div class="account-card">
@@ -42,6 +44,11 @@
 
             <h3 style="color: #2c3e50; margin-bottom: 20px; font-size: 18px;">Quick Actions</h3>
             <div class="quick-actions">
+                <div class="action-card balance" onclick="showPage('login-page')">
+                    <div class="action-icon">🔐</div>
+                    <div class="action-title">Login</div>
+                    <div class="action-desc">Access existing account</div>
+                </div>
                 <div class="action-card create" onclick="showPage('create-page')">
                     <div class="action-icon">➕</div>
                     <div class="action-title">Open Account</div>
@@ -70,6 +77,29 @@
             </div>
         </div>
 
+        <!-- Login Page -->
+        <div id="login-page" class="page">
+            <div class="form-container">
+                <div class="form-header">
+                    <h2>Account Login</h2>
+                    <p>Enter your account credentials to access your account</p>
+                </div>
+                <form id="login-form" onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label>Account Number:</label>
+                        <input type="number" name="account" placeholder="Enter your account number" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Security PIN:</label>
+                        <input type="password" name="pin" maxlength="4" placeholder="••••" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Login</button>
+                    <button type="button" class="btn btn-secondary" onclick="showPage('home-page')">Cancel</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Create Account Page -->
         <div id="create-page" class="page">
             <div class="form-container">
                 <div class="form-header">
@@ -95,6 +125,7 @@
             </div>
         </div>
 
+        <!-- Deposit Page -->
         <div id="deposit-page" class="page">
             <div class="form-container">
                 <div class="form-header">
@@ -120,6 +151,7 @@
             </div>
         </div>
 
+        <!-- Withdraw Page -->
         <div id="withdraw-page" class="page">
             <div class="form-container">
                 <div class="form-header">
@@ -145,6 +177,7 @@
             </div>
         </div>
 
+        <!-- Check Balance Page -->
         <div id="balance-page" class="page">
             <div class="form-container">
                 <div class="form-header">
@@ -167,6 +200,7 @@
             </div>
         </div>
 
+        <!-- Transfer Page -->
         <div id="transfer-page" class="page">
             <div class="form-container">
                 <div class="form-header">
@@ -197,6 +231,7 @@
         </div>
     </div>
 
+    <!-- Result Modal -->
     <div id="result-modal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -213,6 +248,7 @@
         </div>
     </div>
 
+    <!-- Account Switcher Modal -->
     <div id="account-switcher-modal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
