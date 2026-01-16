@@ -3,135 +3,227 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Bank System</title>
+    <title>Online Banking Simulator</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <!-- Home Page -->
+    <div class="header">
+        <div class="header-top">
+            <div class="container">
+                <div>Project for Computer Programming 3</div>
+                <div id="current-date"></div>
+            </div>
+        </div>
+        <div class="header-main">
+            <div class="container">
+                <div class="logo">
+                    <span class="logo-icon"></span>
+                    Bank Simulator
+                </div>
+                <div class="user-info">
+                    <button class="account-switcher-btn" onclick="showAccountSwitcher()">
+                        <span id="current-account-display">Guest Mode</span> ▼
+                    </button>
+                    <button class="logout-btn" onclick="logout()">Logout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-container">
         <div id="home-page" class="page active">
-            <h1>🏦 Simple Bank System</h1>
-            <div class="menu">
-                <button class="menu-item create" onclick="showPage('create-page')">Create Account</button>
-                <button class="menu-item deposit" onclick="showPage('deposit-page')">Deposit Money</button>
-                <button class="menu-item withdraw" onclick="showPage('withdraw-page')">Withdraw Money</button>
-                <button class="menu-item balance" onclick="showPage('balance-page')">Check Balance</button>
-                <button class="menu-item transfer" onclick="showPage('transfer-page')">Transfer Money</button>
+            <div class="dashboard-grid">
+                <div class="account-card">
+                    <div class="account-type">CHECKING ACCOUNT</div>
+                    <div class="account-balance" id="dashboard-balance">$0.00</div>
+                    <div class="account-number" id="dashboard-account">No account selected</div>
+                </div>
+            </div>
+
+            <h3 style="color: #2c3e50; margin-bottom: 20px; font-size: 18px;">Quick Actions</h3>
+            <div class="quick-actions">
+                <div class="action-card create" onclick="showPage('create-page')">
+                    <div class="action-icon">➕</div>
+                    <div class="action-title">Open Account</div>
+                    <div class="action-desc">Create a new banking account</div>
+                </div>
+                <div class="action-card deposit" onclick="showPage('deposit-page')">
+                    <div class="action-icon">💵</div>
+                    <div class="action-title">Deposit</div>
+                    <div class="action-desc">Add funds to your account</div>
+                </div>
+                <div class="action-card withdraw" onclick="showPage('withdraw-page')">
+                    <div class="action-icon">💸</div>
+                    <div class="action-title">Withdraw</div>
+                    <div class="action-desc">Withdraw cash from account</div>
+                </div>
+                <div class="action-card balance" onclick="showPage('balance-page')">
+                    <div class="action-icon">📊</div>
+                    <div class="action-title">Check Balance</div>
+                    <div class="action-desc">View account details</div>
+                </div>
+                <div class="action-card transfer" onclick="showPage('transfer-page')">
+                    <div class="action-icon">🔄</div>
+                    <div class="action-title">Transfer</div>
+                    <div class="action-desc">Send money to another account</div>
+                </div>
             </div>
         </div>
 
-        <!-- Create Account Page -->
         <div id="create-page" class="page">
-            <h1>Create New Account</h1>
-            <form id="create-form" onsubmit="handleCreate(event)">
-                <div class="form-group">
-                    <label>Full Name:</label>
-                    <input type="text" name="name" required>
+            <div class="form-container">
+                <div class="form-header">
+                    <h2>Open New Account</h2>
+                    <p>Complete the form below to open your SecureBank account</p>
                 </div>
-                <div class="form-group">
-                    <label>Initial Deposit ($):</label>
-                    <input type="number" name="amount" step="0.01" min="0" required>
-                </div>
-                <div class="form-group">
-                    <label>4-Digit PIN:</label>
-                    <input type="password" name="pin" maxlength="4" minlength="4" pattern="\d{4}" required>
-                </div>
-                <button type="submit" class="submit-btn create">Create Account</button>
-            </form>
-            <button class="back-btn" onclick="showPage('home-page')">← Back to Home</button>
+                <form id="create-form" onsubmit="handleCreate(event)">
+                    <div class="form-group">
+                        <label>Full Legal Name:</label>
+                        <input type="text" name="name" placeholder="John Doe" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Initial Deposit Amount ($):</label>
+                        <input type="number" name="amount" step="0.01" min="0" placeholder="0.00" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Create 4-Digit PIN:</label>
+                        <input type="password" name="pin" maxlength="4" minlength="4" pattern="\d{4}" placeholder="••••" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Open Account</button>
+                    <button type="button" class="btn btn-secondary" onclick="showPage('home-page')">Cancel</button>
+                </form>
+            </div>
         </div>
 
-        <!-- Deposit Page -->
         <div id="deposit-page" class="page">
-            <h1>Deposit Money</h1>
-            <form id="deposit-form" onsubmit="handleDeposit(event)">
-                <div class="form-group">
-                    <label>Account Number:</label>
-                    <input type="number" name="account" required>
+            <div class="form-container">
+                <div class="form-header">
+                    <h2>Make a Deposit</h2>
+                    <p>Add funds to your account</p>
                 </div>
-                <div class="form-group">
-                    <label>PIN:</label>
-                    <input type="password" name="pin" maxlength="4" required>
-                </div>
-                <div class="form-group">
-                    <label>Amount ($):</label>
-                    <input type="number" name="amount" step="0.01" min="0.01" required>
-                </div>
-                <button type="submit" class="submit-btn deposit">Deposit</button>
-            </form>
-            <button class="back-btn" onclick="showPage('home-page')">← Back to Home</button>
+                <form id="deposit-form" onsubmit="handleDeposit(event)">
+                    <div class="form-group">
+                        <label>Account Number:</label>
+                        <input type="number" name="account" id="deposit-account" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Security PIN:</label>
+                        <input type="password" name="pin" maxlength="4" placeholder="••••" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Deposit Amount ($):</label>
+                        <input type="number" name="amount" step="0.01" min="0.01" placeholder="0.00" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Confirm Deposit</button>
+                    <button type="button" class="btn btn-secondary" onclick="showPage('home-page')">Cancel</button>
+                </form>
+            </div>
         </div>
 
-        <!-- Withdraw Page -->
         <div id="withdraw-page" class="page">
-            <h1>Withdraw Money</h1>
-            <form id="withdraw-form" onsubmit="handleWithdraw(event)">
-                <div class="form-group">
-                    <label>Account Number:</label>
-                    <input type="number" name="account" required>
+            <div class="form-container">
+                <div class="form-header">
+                    <h2>Withdraw Funds</h2>
+                    <p>Withdraw cash from your account</p>
                 </div>
-                <div class="form-group">
-                    <label>PIN:</label>
-                    <input type="password" name="pin" maxlength="4" required>
-                </div>
-                <div class="form-group">
-                    <label>Amount ($):</label>
-                    <input type="number" name="amount" step="0.01" min="0.01" required>
-                </div>
-                <button type="submit" class="submit-btn withdraw">Withdraw</button>
-            </form>
-            <button class="back-btn" onclick="showPage('home-page')">← Back to Home</button>
+                <form id="withdraw-form" onsubmit="handleWithdraw(event)">
+                    <div class="form-group">
+                        <label>Account Number:</label>
+                        <input type="number" name="account" id="withdraw-account" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Security PIN:</label>
+                        <input type="password" name="pin" maxlength="4" placeholder="••••" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Withdrawal Amount ($):</label>
+                        <input type="number" name="amount" step="0.01" min="0.01" placeholder="0.00" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Confirm Withdrawal</button>
+                    <button type="button" class="btn btn-secondary" onclick="showPage('home-page')">Cancel</button>
+                </form>
+            </div>
         </div>
 
-        <!-- Check Balance Page -->
         <div id="balance-page" class="page">
-            <h1>Check Balance</h1>
-            <form id="balance-form" onsubmit="handleBalance(event)">
-                <div class="form-group">
-                    <label>Account Number:</label>
-                    <input type="number" name="account" required>
+            <div class="form-container">
+                <div class="form-header">
+                    <h2>Account Balance</h2>
+                    <p>View your account information</p>
                 </div>
-                <div class="form-group">
-                    <label>PIN:</label>
-                    <input type="password" name="pin" maxlength="4" required>
-                </div>
-                <button type="submit" class="submit-btn balance">Check Balance</button>
-            </form>
-            <div id="balance-result"></div>
-            <button class="back-btn" onclick="showPage('home-page')">← Back to Home</button>
+                <form id="balance-form" onsubmit="handleBalance(event)">
+                    <div class="form-group">
+                        <label>Account Number:</label>
+                        <input type="number" name="account" id="balance-account" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Security PIN:</label>
+                        <input type="password" name="pin" maxlength="4" placeholder="••••" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">View Balance</button>
+                    <button type="button" class="btn btn-secondary" onclick="showPage('home-page')">Cancel</button>
+                </form>
+                <div id="balance-result"></div>
+            </div>
         </div>
 
-        <!-- Transfer Page -->
         <div id="transfer-page" class="page">
-            <h1>Transfer Money</h1>
-            <form id="transfer-form" onsubmit="handleTransfer(event)">
-                <div class="form-group">
-                    <label>Your Account Number:</label>
-                    <input type="number" name="from_account" required>
+            <div class="form-container">
+                <div class="form-header">
+                    <h2>Transfer Money</h2>
+                    <p>Send money to another account</p>
                 </div>
-                <div class="form-group">
-                    <label>Your PIN:</label>
-                    <input type="password" name="pin" maxlength="4" required>
-                </div>
-                <div class="form-group">
-                    <label>Recipient Account Number:</label>
-                    <input type="number" name="to_account" required>
-                </div>
-                <div class="form-group">
-                    <label>Amount ($):</label>
-                    <input type="number" name="amount" step="0.01" min="0.01" required>
-                </div>
-                <button type="submit" class="submit-btn transfer">Transfer</button>
-            </form>
-            <button class="back-btn" onclick="showPage('home-page')">← Back to Home</button>
+                <form id="transfer-form" onsubmit="handleTransfer(event)">
+                    <div class="form-group">
+                        <label>From Account Number:</label>
+                        <input type="number" name="from_account" id="transfer-account" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Security PIN:</label>
+                        <input type="password" name="pin" maxlength="4" placeholder="••••" required>
+                    </div>
+                    <div class="form-group">
+                        <label>To Account Number:</label>
+                        <input type="number" name="to_account" placeholder="Recipient account" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Transfer Amount ($):</label>
+                        <input type="number" name="amount" step="0.01" min="0.01" placeholder="0.00" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Transfer Funds</button>
+                    <button type="button" class="btn btn-secondary" onclick="showPage('home-page')">Cancel</button>
+                </form>
+            </div>
         </div>
+    </div>
 
-        <!-- Result Modal -->
-        <div id="result-modal" class="modal">
-            <div class="modal-content">
-                <h2 id="modal-title">Result</h2>
-                <p id="modal-message"></p>
-                <button class="modal-close" onclick="closeModal()">Close</button>
+    <div id="result-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">Notification</h2>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="modal-icon"></div>
+                <p class="message-text" id="modal-message"></p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" onclick="closeModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="account-switcher-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Switch Account</h2>
+                <button class="modal-close" onclick="closeAccountSwitcher()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="account-list" class="account-list"></div>
+                <button class="add-account-btn" onclick="closeAccountSwitcher(); showPage('create-page')">
+                    + Open New Account
+                </button>
             </div>
         </div>
     </div>

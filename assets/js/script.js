@@ -1,47 +1,106 @@
-// Page Navigation
+let accounts = [];
+let currentAccount = null;
+
+function init() {
+    updateDateTime();
+    setInterval(updateDateTime, 60000);
+    updateDashboard();
+}
+
+function updateDateTime() {
+    const now = new Date();
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    document.getElementById('current-date').textContent = now.toLocaleDateString('en-US', options);
+}
+
+function updateDashboard() {
+    if (currentAccount) {
+        document.getElementById('dashboard-balance').textContent = `$${currentAccount.balance.toFixed(2)}`;
+        document.getElementById('dashboard-account').textContent = `Account #${currentAccount.accountNumber}`;
+        document.getElementById('current-account-display').textContent = currentAccount.name;
+
+        document.getElementById('deposit-account').value = currentAccount.accountNumber;
+        document.getElementById('withdraw-account').value = currentAccount.accountNumber;
+        document.getElementById('balance-account').value = currentAccount.accountNumber;
+        document.getElementById('transfer-account').value = currentAccount.accountNumber;
+    } else {
+        document.getElementById('dashboard-balance').textContent = '$0.00';
+        document.getElementById('dashboard-account').textContent = 'No account selected';
+        document.getElementById('current-account-display').textContent = 'Guest Mode';
+    }
+}
+
+function showAccountSwitcher() {
+    const accountList = document.getElementById('account-list');
+
+    if (accounts.length === 0) {
+        accountList.innerHTML = '<p style="text-align: center; color: #7f8c8d; padding: 20px;">No accounts available. Please create one.</p>';
+    } else {
+        accountList.innerHTML = accounts.map(acc => `
+            <div class="account-item ${currentAccount && currentAccount.accountNumber === acc.accountNumber ? 'active' : ''}" 
+                 onclick="switchAccount(${acc.accountNumber})">
+                <div class="account-item-name">${acc.name}</div>
+                <div class="account-item-number">Account #${acc.accountNumber} • Balance: $${acc.balance.toFixed(2)}</div>
+            </div>
+        `).join('');
+    }
+
+    document.getElementById('account-switcher-modal').classList.add('show');
+}
+
+function closeAccountSwitcher() {
+    document.getElementById('account-switcher-modal').classList.remove('show');
+}
+
+function switchAccount(accountNumber) {
+    const account = accounts.find(acc => acc.accountNumber === accountNumber);
+    if (account) {
+        currentAccount = account;
+        updateDashboard();
+        closeAccountSwitcher();
+        showPage('home-page');
+    }
+}
+
+function logout() {
+    currentAccount = null;
+    updateDashboard();
+    showPage('home-page');
+}
+
 function showPage(pageId) {
-    // Hide all pages
     const pages = document.querySelectorAll('.page');
     pages.forEach(page => page.classList.remove('active'));
-
-    // Show selected page
     document.getElementById(pageId).classList.add('active');
 
-    // Clear forms and results
     const forms = document.querySelectorAll('form');
     forms.forEach(form => form.reset());
 
     const balanceResult = document.getElementById('balance-result');
     balanceResult.classList.remove('show');
+
+    updateDashboard();
 }
 
-// Show Modal
 function showModal(title, message, isSuccess) {
     const modal = document.getElementById('result-modal');
-    const modalContent = modal.querySelector('.modal-content');
     const modalTitle = document.getElementById('modal-title');
     const modalMessage = document.getElementById('modal-message');
+    const modalIcon = document.getElementById('modal-icon');
 
     modalTitle.textContent = title;
     modalMessage.textContent = message;
-
-    // Add success or error styling
-    modalContent.classList.remove('success', 'error');
-    modalContent.classList.add(isSuccess ? 'success' : 'error');
+    modalIcon.innerHTML = isSuccess ? '<div class="success-icon">✓</div>' : '<div class="error-icon">✕</div>';
 
     modal.classList.add('show');
 }
 
-// Close Modal
 function closeModal() {
-    const modal = document.getElementById('result-modal');
-    modal.classList.remove('show');
+    document.getElementById('result-modal').classList.remove('show');
 }
 
-// Helper function to send form data with proper encoding
 async function sendRequest(url, formData) {
     try {
-        // Convert FormData to URL-encoded string
         const params = new URLSearchParams();
         for (const [key, value] of formData.entries()) {
             params.append(key, value);
@@ -66,140 +125,150 @@ async function sendRequest(url, formData) {
     }
 }
 
-// Handle Create Account
 async function handleCreate(event) {
     event.preventDefault();
-
     const form = event.target;
     const formData = new FormData(form);
-
-    // Add loading state
-    form.classList.add('loading');
 
     const result = await sendRequest('/api/create', formData);
 
-    // Remove loading state
-    form.classList.remove('loading');
-
     if (result.success) {
+        const newAccount = {
+            accountNumber: result.accountNumber,
+            name: formData.get('name'),
+            balance: parseFloat(formData.get('amount'))
+        };
+        accounts.push(newAccount);
+        currentAccount = newAccount;
+
         showModal(
-            'Success!',
-            `Account created successfully! Your account number is: ${result.accountNumber}`,
+            'Account Created Successfully!',
+            `Welcome to SecureBank, ${newAccount.name}!\n\nYour new account number is: ${result.accountNumber}\n\nInitial balance: $${newAccount.balance.toFixed(2)}\n\nPlease keep your PIN secure.`,
             true
         );
         form.reset();
+        updateDashboard();
     } else {
-        showModal('Error', result.message, false);
+        showModal('Account Creation Failed', result.message, false);
     }
 }
 
-// Handle Deposit
 async function handleDeposit(event) {
     event.preventDefault();
-
     const form = event.target;
     const formData = new FormData(form);
-
-    form.classList.add('loading');
 
     const result = await sendRequest('/api/deposit', formData);
 
-    form.classList.remove('loading');
-
     if (result.success) {
+        const account = accounts.find(acc => acc.accountNumber === parseInt(formData.get('account')));
+        if (account) {
+            account.balance = result.balance;
+            if (currentAccount && currentAccount.accountNumber === account.accountNumber) {
+                currentAccount.balance = result.balance;
+            }
+        }
+
         showModal(
-            'Success!',
-            `${result.message}\nNew Balance: $${result.balance.toFixed(2)}`,
+            'Deposit Successful',
+            `${result.message}\n\nNew Balance: $${result.balance.toFixed(2)}`,
             true
         );
         form.reset();
+        updateDashboard();
     } else {
-        showModal('Error', result.message, false);
+        showModal('Deposit Failed', result.message, false);
     }
 }
 
-// Handle Withdraw
 async function handleWithdraw(event) {
     event.preventDefault();
-
     const form = event.target;
     const formData = new FormData(form);
 
-    form.classList.add('loading');
-
     const result = await sendRequest('/api/withdraw', formData);
 
-    form.classList.remove('loading');
-
     if (result.success) {
+        const account = accounts.find(acc => acc.accountNumber === parseInt(formData.get('account')));
+        if (account) {
+            account.balance = result.balance;
+            if (currentAccount && currentAccount.accountNumber === account.accountNumber) {
+                currentAccount.balance = result.balance;
+            }
+        }
+
         showModal(
-            'Success!',
-            `${result.message}\nNew Balance: $${result.balance.toFixed(2)}`,
+            'Withdrawal Successful',
+            `${result.message}\n\nNew Balance: $${result.balance.toFixed(2)}`,
             true
         );
         form.reset();
+        updateDashboard();
     } else {
-        showModal('Error', result.message, false);
+        showModal('Withdrawal Failed', result.message, false);
     }
 }
 
-// Handle Check Balance
 async function handleBalance(event) {
     event.preventDefault();
-
     const form = event.target;
     const formData = new FormData(form);
     const resultDiv = document.getElementById('balance-result');
 
-    form.classList.add('loading');
-
     const result = await sendRequest('/api/balance', formData);
-
-    form.classList.remove('loading');
 
     if (result.success) {
         resultDiv.innerHTML = `
             <h3>Account Information</h3>
             <p><strong>Account Number:</strong> ${result.accountNumber}</p>
-            <p><strong>Name:</strong> ${result.name}</p>
-            <p><strong>Balance:</strong> $${result.balance.toFixed(2)}</p>
+            <p><strong>Account Holder:</strong> ${result.name}</p>
+            <p><strong>Current Balance:</strong> $${result.balance.toFixed(2)}</p>
+            <p><strong>Account Type:</strong> Checking Account</p>
         `;
         resultDiv.classList.add('show');
     } else {
-        showModal('Error', result.message, false);
+        showModal('Access Denied', result.message, false);
         resultDiv.classList.remove('show');
     }
 }
 
-// Handle Transfer
 async function handleTransfer(event) {
     event.preventDefault();
-
     const form = event.target;
     const formData = new FormData(form);
 
-    form.classList.add('loading');
-
     const result = await sendRequest('/api/transfer', formData);
 
-    form.classList.remove('loading');
-
     if (result.success) {
+        const account = accounts.find(acc => acc.accountNumber === parseInt(formData.get('from_account')));
+        if (account) {
+            account.balance = result.balance;
+            if (currentAccount && currentAccount.accountNumber === account.accountNumber) {
+                currentAccount.balance = result.balance;
+            }
+        }
+
         showModal(
-            'Success!',
-            `${result.message}\nYour New Balance: $${result.balance.toFixed(2)}`,
+            'Transfer Successful',
+            `${result.message}\n\nYour New Balance: $${result.balance.toFixed(2)}`,
             true
         );
         form.reset();
+        updateDashboard();
     } else {
-        showModal('Error', result.message, false);
+        showModal('Transfer Failed', result.message, false);
     }
 }
 
-// Close modal when clicking outside
 window.onclick = function (event) {
-    const modal = document.getElementById('result-modal');
-    if (event.target === modal) {
+    const resultModal = document.getElementById('result-modal');
+    const switcherModal = document.getElementById('account-switcher-modal');
+    if (event.target === resultModal) {
         closeModal();
     }
+    if (event.target === switcherModal) {
+        closeAccountSwitcher();
+    }
 }
+
+init();
