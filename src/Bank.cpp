@@ -8,7 +8,13 @@
 std::string getTimestamp() {
     time_t now = time(0);
     char buf[80];
+#ifdef _MSC_VER
+    struct tm timeinfo;
+    localtime_s(&timeinfo, &now);
+    strftime(buf, sizeof(buf), "%Y-%m-%d %H:%M:%S", &timeinfo);
+#else
     strftime(buf, sizeof(buf), "%Y-%m-%d %H:%M:%S", localtime(&now));
+#endif
     return std::string(buf);
 }
 

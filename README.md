@@ -1,59 +1,39 @@
-# Bank Account System Simulator
+# Simple Banking System (Web-Based)
 
-A school project simulating a basic banking system with core functionalities like account management, transactions, and user authentication.
+A **school group project** that simulates a basic banking system with a **web-based interface**.  
+This project focuses only on essential banking operations to keep the system simple and easy to understand.
+
+---
 
 ## Overview
 
-This learning project demonstrates how banking systems work. It lets you create accounts, make deposits and withdrawals, transfer money, and view transaction history. Perfect for understanding banking concepts and practicing programming skills!
+This project demonstrates a simplified banking system where users can **create accounts**, **switch between accounts**, and perform basic transactions such as **deposit**, **withdraw**, and **transfer** through a web interface.
 
-## Features
+It is designed for learning system logic, web interaction, and collaborative development.
+
+---
+
+## Core Features
 
 ### Account Management
+- Create new bank accounts
+- Switch between existing accounts
+- View active account balance
 
-- [ ] Create customer accounts with unique account numbers
-- [ ] Store basic customer info (name, ID, contact)
-- [ ] Track account balance
-- [ ] Support one account type (checking/savings)
+### Transactions
+- **Deposit** money into an account
+- **Withdraw** money with balance validation
+- **Transfer** funds between accounts
 
-### Transaction Processing
-
-- [ ] Deposits: Add money to an account
-- [ ] Withdrawals: Remove money (with sufficient funds check)
-- [ ] Transfers: Move money between accounts instantly
-- [ ] View current balance
-- [ ] Simple transaction validation
-
-### Authentication & Security
-
-- [ ] Login with username and password
-- [ ] Verify identity before account access
-- [ ] Basic session tracking (who's logged in)
-
-### Transaction History
-
-- [ ] Record all transactions (date, amount, type)
-- [ ] View transaction history for any account
-- [ ] Simple list format showing recent activities
-
-### Data Storage
-
-- [ ] Store account and customer data
-- [ ] Keep transaction records
-- [ ] Basic data validation
-
-### User Interface
-
-- [ ] Text-based menu system
-- [ ] Clear prompts for user input
-- [ ] Display account information
-- [ ] Show success/error messages
-- [ ] Easy navigation between features
-
+### Web-Based Interface
+- Accessible through a web browser
+- Simple and user-friendly layout
+- Forms for account creation and transactions
+- Clear success and error messages
 
 ## Getting Started
 
 ### Requirements
-
 - Any IDE (VS Code recommended)
 - C++17 compiler
 - Microsoft Visual Studio 2022 with:
@@ -63,35 +43,49 @@ This learning project demonstrates how banking systems work. It lets you create 
 - CMake (latest stable version)
 - Git
 
-### Usage
+---
 
-**Building from Source**
+## Usage
 
-For detailed instructions on how to build and run the project from the source code, please refer to the [Usage Guide](https://github.com/aaronmfs/my-utils/blob/main/markdowns/scripts/USAGE.md).
+### Building from Source
 
-**Pre-built Binaries**
+For detailed instructions on how to build and run the project from source, please refer to the guide below:
 
-If you prefer not to build from source, you can download the pre-built binaries from the following link:
+- **Usage Guide:**  
+  https://github.com/aaronmfs/my-utils/blob/main/markdowns/scripts/USAGE.md
 
-- **Outdated**:  
-  [Download Pre-built Binaries](https://github.com/aaronmfs/Bank-Account-System/actions/runs/20584026340/artifacts/4987232451)
+### Pre-built Binaries
 
-- **Updated**:  
-  The updated binaries will be sent to our group chat.
+If you prefer not to build from source, you may download the pre-built binaries:
 
+- **Outdated:**  
+  https://github.com/aaronmfs/Bank-Account-System/actions/runs/20584026340/artifacts/4987232451
+
+- **Updated:**  
+  The updated binaries will be sent through our group chat.
+
+---
 
 ## Contributing
 
-This is a school project. Feel free to fork it and make it your own!
+This is a **school group project**. Feel free to fork and modify it for learning purposes.
 
 ### For Groupmates
 
-New to Git? Check out our [Git Commit Guide](https://github.com/aaronmfs/my-utils/blob/main/markdowns/GIT_GUIDE.md) to learn how to write proper commits and work with the team!
+New to Git? Check out our commit guide before contributing:
+
+- **Git Commit Guide:**  
+  https://github.com/aaronmfs/my-utils/blob/main/markdowns/GIT_GUIDE.md
+
+---
 
 ## License
 
-MIT License — feel free to use this for your own learning.
+MIT License — free to use for academic and learning purposes.
 
-## Note
+---
 
-This is a **school project** for learning purposes. Do not use it for real money or actual banking! 😅
+## Disclaimer
+
+🚫 **This system is NOT a real banking application.**  
+Do not use it for real money or actual financial transactions.
